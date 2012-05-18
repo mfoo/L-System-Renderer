@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>CoffeeScript Lindenmayer System</title>
+  <meta name="author" content="Martin Foot">
+  <meta name="description" content="An l-system implementation using
+  CoffeeScript and the HTML Canvas element">
+  <meta name="keywords" content="coffeescript,l-system">
+  <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
+ </head>
+ <body>
+     <div class="container">
+         <header>
+            <h1>An interactive L-System implementation written in CoffeeScript</h1>
+            <p class="lead">by Martin Foot</p>
+        </header>
+        <p><a href="http://en.wikipedia.org/wiki/L-system">Lindenmayer
+            systems</a> describe a variant of a formal grammar that describes
+        state progressions between iterations combined with a set of axioms, or
+        an initial state.</p>
+        <canvas id="canvas" height="500px" width="900px" style="margin: auto" />
+    </div>
+    <script src="lsystem.js"></script>
+  <script type="text/javascript">
+   function autorun()
+{
+    console.log("hi")
+    
+   }
+    window.onload = autorun;
+  </script>
+ </body>
+</html>
+
