@@ -1,4 +1,5 @@
 class Stack
+    # A generic stack
 
     constructor: () ->
         @size = 0
@@ -27,8 +28,9 @@ class Stack
 
 
 class LSystem
-    constructor: ->
+    # A representation of a single L system.
 
+    constructor: ->
         @initialiseCanvas()
 
         @stack = new Stack()
@@ -36,11 +38,6 @@ class LSystem
         @stack.push new Turtle()
         @variables = ['A', 'B']
         @axiom = 'A'
-        #        @rules =
-        #            'A': () -> 'AB'
-        #            'B': () -> '[A]'
-        #            '[': () -> '['
-        #            ']': () -> ']'
         @rules =
             'A': () -> 'B-A-B'
             'B': () -> 'A+B+A'
@@ -49,11 +46,9 @@ class LSystem
         @renderFunctions =
             'A': (stack) ->
                 turtle = stack.peek()
-                #                turtle.penDown()
                 turtle.forward 10
             'B': (stack) ->
                 turtle = stack.peek()
-                #turtle.penUp()
                 turtle.forward 10
             '-': (stack) ->
                 #                turtle = new Turtle()
@@ -66,10 +61,6 @@ class LSystem
 
                 #turtle.ctx.restore()
                 turtle.rotate 60
-
-                #0 A
-                #1 B-A-B
-                #2 A+B+A-B-A-B-A+B+A
 
     initialiseCanvas: () ->
         canvas = document.getElementById("canvas")
@@ -94,6 +85,8 @@ class LSystem
             @renderFunctions[@axiom.charAt i](@stack)
 
 class Turtle
+    # A simple implementation of Turtle Graphics.
+
     constructor: () ->
         canvas = document.getElementById("canvas")
         @ctx = canvas.getContext '2d'
