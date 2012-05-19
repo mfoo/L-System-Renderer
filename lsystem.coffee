@@ -224,36 +224,42 @@ initialise = ->
         transformState.zoomLevel += 0.2
         ctx.scale transformState.zoomLevel, transformState.zoomLevel
         renderLSystem()
+        return false
 
     zoomOutButton = document.getElementById 'zoomOut'
     zoomOutButton.onclick = (event) ->
         transformState.zoomOut 0.2
         ctx.scale transformState.zoomLevel, transformState.zoomLevel
         renderLSystem()
+        return false
 
     panLeftButton = document.getElementById 'panLeft'
     panLeftButton.onclick = (event) ->
         transformState.xOffset -= 20
         ctx.translate transformState.xOffset, transformState.yOffset
         renderLSystem()
+        return false
 
     panRightButton = document.getElementById 'panRight'
     panRightButton.onclick = (event) ->
         transformState.xOffset += 20
         ctx.translate transformState.xOffset, transformState.yOffset
         renderLSystem()
+        return false
 
     panDownButton = document.getElementById 'panDown'
     panDownButton.onclick = (event) ->
         transformState.yOffset -= 20
         ctx.translate transformState.xOffset, transformState.yOffset
         renderLSystem()
+        return false
 
     panUpButton = document.getElementById 'panUp'
     panUpButton.onclick = (event) ->
         transformState.yOffset += 20
         ctx.translate transformState.xOffset, transformState.yOffset
         renderLSystem()
+        return false
 
     previousX = 0
     previousY = 0
@@ -263,9 +269,11 @@ initialise = ->
         previousX = event.offsetX
         previousY = event.offsetY
         dragging = true
+        return false
 
     canvas.onmouseup = (event) ->
         dragging = false
+        return false
 
     canvas.onmousemove = (event) ->
         if dragging
@@ -276,5 +284,7 @@ initialise = ->
             previousY = event.offsetY
             renderLSystem()
 
+        return false
+    
 initialise()
 renderLSystem()

@@ -281,37 +281,43 @@
     zoomInButton.onclick = function(event) {
       transformState.zoomLevel += 0.2;
       ctx.scale(transformState.zoomLevel, transformState.zoomLevel);
-      return renderLSystem();
+      renderLSystem();
+      return false;
     };
     zoomOutButton = document.getElementById('zoomOut');
     zoomOutButton.onclick = function(event) {
       transformState.zoomOut(0.2);
       ctx.scale(transformState.zoomLevel, transformState.zoomLevel);
-      return renderLSystem();
+      renderLSystem();
+      return false;
     };
     panLeftButton = document.getElementById('panLeft');
     panLeftButton.onclick = function(event) {
       transformState.xOffset -= 20;
       ctx.translate(transformState.xOffset, transformState.yOffset);
-      return renderLSystem();
+      renderLSystem();
+      return false;
     };
     panRightButton = document.getElementById('panRight');
     panRightButton.onclick = function(event) {
       transformState.xOffset += 20;
       ctx.translate(transformState.xOffset, transformState.yOffset);
-      return renderLSystem();
+      renderLSystem();
+      return false;
     };
     panDownButton = document.getElementById('panDown');
     panDownButton.onclick = function(event) {
       transformState.yOffset -= 20;
       ctx.translate(transformState.xOffset, transformState.yOffset);
-      return renderLSystem();
+      renderLSystem();
+      return false;
     };
     panUpButton = document.getElementById('panUp');
     panUpButton.onclick = function(event) {
       transformState.yOffset += 20;
       ctx.translate(transformState.xOffset, transformState.yOffset);
-      return renderLSystem();
+      renderLSystem();
+      return false;
     };
     previousX = 0;
     previousY = 0;
@@ -319,10 +325,12 @@
     canvas.onmousedown = function(event) {
       previousX = event.offsetX;
       previousY = event.offsetY;
-      return dragging = true;
+      dragging = true;
+      return false;
     };
     canvas.onmouseup = function(event) {
-      return dragging = false;
+      dragging = false;
+      return false;
     };
     return canvas.onmousemove = function(event) {
       if (dragging) {
@@ -330,8 +338,9 @@
         transformState.yOffset += event.offsetY - previousY;
         previousX = event.offsetX;
         previousY = event.offsetY;
-        return renderLSystem();
+        renderLSystem();
       }
+      return false;
     };
   };
 
