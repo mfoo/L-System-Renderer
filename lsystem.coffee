@@ -95,19 +95,63 @@ class Turtle
         @rotate degrees
 
     left: (degrees) ->
-        right -degrees
+        @right -degrees
 
-window.LSystem = LSystem
-window.Stack = Stack
+        #currentSystem = 'Sierpinski Triangle'
+currentSystem = 'Wikipedia Example 2'
+
+renderLSystem = () ->
+    console.log "rendering"
+
+    # Default to 6
+    numIterations = 6
+    
+    numIterationsInput = document.getElementById 'numIterations'
+    if numIterationsInput.value isnt ""
+        numIterations = numIterationsInput.value
+
+    if currentSystem is undefined
+        console.log 'Cannot render undefined system.'
+        return
+
+    console.log "Rendering", currentSystem, "for", numIterations, "generations."
+
+    canvas = document.getElementById("canvas")
+    ctx = canvas.getContext '2d'
+    maxX = canvas.width
+    maxY = canvas.height
+    ctx.save()
+    ctx.fillStyle = 'white'
+    ctx.fillRect 0, 0, maxX, maxY
+    ctx.translate maxX / 2, maxY / 2
+
+    a = new LSystem(lsystems[currentSystem])
+    console.log a
+    for num in [0..numIterations]
+        a.axiom = a.step()
+    
+    a.render()
+
+    ctx.restore()
+
+initialise = ->
+    selectBox = document.getElementById "systemselector"
+    selectBox.onchange = (event) ->
+        console.log "hi"
+        console.log currentSystem
+        console.log @value
+        currentSystem = @value
+        console.log currentSystem
+        renderLSystem()
+
+initialise()
 
 lsystems =
-    'Sierpinski triangle':
+    'Sierpinski Triangle':
         axiom: 'A'
         rules:
-            'A': () -> 'B-A-CB'
+            'A': () -> 'B-A-B'
             'B': () -> 'A+B+A'
-            '-': () -> '-'
-            '+': () -> '+'
         renderFunctions:
             'A': (stack) ->
                 turtle = stack.peek()
