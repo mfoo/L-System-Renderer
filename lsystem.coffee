@@ -57,6 +57,8 @@ class LSystem
 
             if generationFunc
                 buffer = buffer + @rules[char]()
+            else
+                buffer = buffer + char
         
         return buffer
 
