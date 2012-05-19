@@ -98,6 +98,13 @@ class Turtle
         @right -degrees
 
 currentSystem = undefined
+transformState =
+    zoomOut: (amount) ->
+        if(@zoomLevel - amount > 0.1)
+            @zoomLevel -= amount
+    xOffset: 0
+    yOffset: 0
+    zoomLevel: 1.0
 
 renderLSystem = () ->
 
@@ -119,17 +126,24 @@ renderLSystem = () ->
     maxX = canvas.width
     maxY = canvas.height
 
+    topX = -transformState.xOffset / transformState.zoomLevel
+    topY = -transformState.yOffset / transformState.zoomLevel
+    width = maxX / transformState.zoomLevel
+    height = maxY / transformState.zoomLevel
+
+    ctx.setTransform(transformState.zoomLevel, 0, 0, transformState.zoomLevel, transformState.xOffset, transformState.yOffset)
     ctx.fillStyle = 'white'
-    ctx.fillRect 0, 0, maxX, maxY
-    ctx.translate maxX / 2, maxY / 2
+    ctx.fillRect topX, topY, width, height
 
     a = new LSystem(lsystems[currentSystem])
-    for num in [0..numIterations]
+
+    for num in [1..numIterations]
         a.axiom = a.step()
+
+    console.log "Evolution:", a.axiom
     
     a.render()
 
-    ctx.setTransform(1,0,0,1,0,0);
 
 lsystems =
     'Sierpinski Triangle':
@@ -198,6 +212,49 @@ initialise = ->
         currentSystem = selectBox.value
         renderLSystem()
         return false
+
+    canvas = document.getElementById 'canvas'
+    ctx = canvas.getContext '2d'
+
+    transformState.xOffset = canvas.width / 2
+    transformState.yOffset = canvas.height / 2
+
+    zoomInButton = document.getElementById 'zoomIn'
+    zoomInButton.onclick = (event) ->
+        transformState.zoomLevel += 0.2
+        ctx.scale transformState.zoomLevel, transformState.zoomLevel
+        renderLSystem()
+
+    zoomOutButton = document.getElementById 'zoomOut'
+    zoomOutButton.onclick = (event) ->
+        transformState.zoomOut 0.2
+        ctx.scale transformState.zoomLevel, transformState.zoomLevel
+        renderLSystem()
+
+    panLeftButton = document.getElementById 'panLeft'
+    panLeftButton.onclick = (event) ->
+        transformState.xOffset -= 20
+        ctx.translate transformState.xOffset, transformState.yOffset
+        renderLSystem()
+
+    panRightButton = document.getElementById 'panRight'
+    panRightButton.onclick = (event) ->
+        transformState.xOffset += 20
+        ctx.translate transformState.xOffset, transformState.yOffset
+        renderLSystem()
+
+    panDownButton = document.getElementById 'panDown'
+    panDownButton.onclick = (event) ->
+        transformState.yOffset -= 20
+        ctx.translate transformState.xOffset, transformState.yOffset
+        renderLSystem()
+
+    panUpButton = document.getElementById 'panUp'
+    panUpButton.onclick = (event) ->
+        transformState.yOffset += 20
+        ctx.translate transformState.xOffset, transformState.yOffset
+        renderLSystem()
+
 
 
 initialise()

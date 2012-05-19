@@ -25,7 +25,29 @@
             systems</a> describe a variant of a formal grammar that describes
         state progressions between iterations combined with a set of axioms, or
         an initial state.</p>
-        <canvas id="canvas" height="500px" width="900px"/>
+        <div class="row">
+            <div class="btn-group span12" style="position: relative; top: 28px">
+                <button id="zoomIn" class="btn">
+                    <div class="icon-plus"></div>
+                </button>
+                <button id="zoomOut" class="btn">
+                    <div class="icon-minus"></div>
+                </button>
+                <button id="panLeft" class="btn">
+                    <div class="icon-chevron-left"></div>
+                </button>
+                <button id="panRight" class="btn">
+                    <div class="icon-chevron-right"></div>
+                </button>
+                <button id="panUp" class="btn">
+                    <div class="icon-chevron-up"></div>
+                </button>
+                <button id="panDown" class="btn">
+                    <div class="icon-chevron-down"></div>
+                </button>
+            </div>
+            <canvas id="canvas" class="span12" height="500px" width="900px"/>
+        </div>
     </div>
     <style type="text/css">
         canvas {
