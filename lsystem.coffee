@@ -101,7 +101,6 @@ class Turtle
 currentSystem = 'Wikipedia Example 2'
 
 renderLSystem = () ->
-    console.log "rendering"
 
     # Default to 6
     numIterations = 6
@@ -126,7 +125,6 @@ renderLSystem = () ->
     ctx.translate maxX / 2, maxY / 2
 
     a = new LSystem(lsystems[currentSystem])
-    console.log a
     for num in [0..numIterations]
         a.axiom = a.step()
     
@@ -176,17 +174,15 @@ lsystems =
                 turtle.right 45
 
 initialise = ->
-    selectBox = document.getElementById "systemselector"
+    selectBox = document.getElementById 'systemselector'
     for key in Object.keys(lsystems)
         selectBox.options[selectBox.options.length] = new Option(key)
 
-    selectBox.onchange = (event) ->
-        console.log "hi"
-        console.log currentSystem
-        console.log @value
-        currentSystem = @value
-        console.log currentSystem
+    submitButton = document.getElementById 'submitButton'
+    submitButton.onclick = (event) ->
+        currentSystem = selectBox.value
         renderLSystem()
+        return false
 
 
 initialise()
