@@ -31,7 +31,6 @@ class LSystem
     # A representation of a single L system.
 
     constructor: (hash) ->
-        @initialiseCanvas()
 
         @axiom = hash.axiom
         @rules = hash.rules
@@ -39,13 +38,6 @@ class LSystem
         @stack = new Stack(@axiom, @rules, @renderFunctions)
         @stack.push new Turtle()
         @variables = ['A', 'B']
-
-    initialiseCanvas: () ->
-        canvas = document.getElementById("canvas")
-        ctx = canvas.getContext '2d'
-        maxX = canvas.width
-        maxY = canvas.height
-        ctx.translate maxX / 2, maxY
 
     step: () ->
         buffer = ''
@@ -69,6 +61,7 @@ class LSystem
             if renderFunc
                 renderFunc(@stack)
 
+
 class Turtle
     # A simple implementation of Turtle Graphics.
 
@@ -83,6 +76,10 @@ class Turtle
     penUp: ->
         @drawing = false
 
+    rotate: (degrees) ->
+        @ctx.moveTo 0, 0
+        @ctx.rotate degrees * Math.PI / 180
+
     forward: (length) ->
         @ctx.beginPath()
         @ctx.moveTo 0, 0
@@ -95,7 +92,7 @@ class Turtle
         @ctx.translate 0, -length
 
     right: (degrees) ->
-        rotate degrees
+        @rotate degrees
 
     left: (degrees) ->
         right -degrees
