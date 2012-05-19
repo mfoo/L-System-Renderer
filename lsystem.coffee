@@ -75,14 +75,19 @@ class LSystem
         for i in [0..@axiom.length - 1]
             char = @axiom.charAt i
             # todo: handle constants that don't have a translation function
-            buffer = buffer + @rules[char]()
+            generationFunc = @rules[char]
+
+            if generationFunc
+                buffer = buffer + @rules[char]()
         
         return buffer
 
 
     render: () ->
         for i in [0..@axiom.length - 1]
-            @renderFunctions[@axiom.charAt i](@stack)
+            renderFunc = @renderFunctions[@axiom.charAt i]
+            if renderFunc
+                renderFunc(@stack)
 
 class Turtle
     # A simple implementation of Turtle Graphics.
