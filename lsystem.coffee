@@ -30,44 +30,22 @@ class Stack
 class LSystem
     # A representation of a single L system.
 
-    constructor: ->
+    constructor: (hash) ->
         @initialiseCanvas()
 
-        @stack = new Stack()
-        @stack.push new Turtle()
+        @axiom = hash.axiom
+        @rules = hash.rules
+        @renderFunctions = hash.renderFunctions
+        @stack = new Stack(@axiom, @rules, @renderFunctions)
         @stack.push new Turtle()
         @variables = ['A', 'B']
-        @axiom = 'A'
-        @rules =
-            'A': () -> 'B-A-B'
-            'B': () -> 'A+B+A'
-            '-': () -> '-'
-            '+': () -> '+'
-        @renderFunctions =
-            'A': (stack) ->
-                turtle = stack.peek()
-                turtle.forward 10
-            'B': (stack) ->
-                turtle = stack.peek()
-                turtle.forward 10
-            '-': (stack) ->
-                #                turtle = new Turtle()
-                #stack.push turtle
-                turtle = stack.peek()
-                #turtle.ctx.save()
-                turtle.rotate -60
-            '+': (stack) ->
-                turtle = stack.peek()
-
-                #turtle.ctx.restore()
-                turtle.rotate 60
 
     initialiseCanvas: () ->
         canvas = document.getElementById("canvas")
         ctx = canvas.getContext '2d'
         maxX = canvas.width
         maxY = canvas.height
-        ctx.translate maxX / 2, maxY / 2
+        ctx.translate maxX / 2, maxY
 
     step: () ->
         buffer = ''
@@ -114,14 +92,46 @@ class Turtle
 
         @ctx.translate 0, -length
 
-    rotate: (degrees) ->
-        @ctx.moveTo 0, 0
-        @ctx.rotate degrees * Math.PI / 180
+    right: (degrees) ->
+        rotate degrees
+
+    left: (degrees) ->
+        right -degrees
 
 window.LSystem = LSystem
 window.Stack = Stack
 
-a = new LSystem()
+lsystems =
+    'Sierpinski triangle':
+        axiom: 'A'
+        rules:
+            'A': () -> 'B-A-CB'
+            'B': () -> 'A+B+A'
+            '-': () -> '-'
+            '+': () -> '+'
+        renderFunctions:
+            'A': (stack) ->
+                turtle = stack.peek()
+                turtle.forward 10
+            'B': (stack) ->
+                turtle = stack.peek()
+                turtle.forward 10
+            '-': (stack) ->
+                #                turtle = new Turtle()
+                #stack.push turtle
+                turtle = stack.peek()
+                #turtle.ctx.save()
+                turtle.rotate -60
+            '+': (stack) ->
+                turtle = stack.peek()
+
+                #turtle.ctx.restore()
+                turtle.rotate 60
+
+
+
+
+a = new LSystem(lsystems['Sierpinski triangle'])
 for num in [0..6]
     a.axiom = a.step()
 a.render()
