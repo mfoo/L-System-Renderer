@@ -160,21 +160,32 @@ lsystems =
                 turtle = stack.peek()
                 turtle.forward 10
             '-': (stack) ->
-                #                turtle = new Turtle()
-                #stack.push turtle
                 turtle = stack.peek()
-                #turtle.ctx.save()
-                turtle.rotate -60
+                turtle.left 60
             '+': (stack) ->
                 turtle = stack.peek()
+                turtle.right 60
+    'Wikipedia Example 2':
+        axiom: '0'
+        rules:
+            '1': () -> '11'
+            '0': () -> '1[0]0'
+        renderFunctions:
+            '0': (stack) ->
+                turtle = stack.peek()
+                turtle.forward 10
+            '1': (stack) ->
+                turtle = stack.peek()
+                turtle.forward 10
+            '[': (stack) ->
+                turtle = new Turtle()
+                stack.push turtle
+                turtle.ctx.save()
+                turtle.left 45
+            ']': (stack) ->
+                turtle = stack.pop()
+                turtle.ctx.restore()
+                turtle.right 45
 
-                #turtle.ctx.restore()
-                turtle.rotate 60
 
-
-
-
-a = new LSystem(lsystems['Sierpinski triangle'])
-for num in [0..6]
-    a.axiom = a.step()
-a.render()
+renderLSystem()
