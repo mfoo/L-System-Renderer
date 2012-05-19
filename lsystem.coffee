@@ -255,7 +255,26 @@ initialise = ->
         ctx.translate transformState.xOffset, transformState.yOffset
         renderLSystem()
 
+    previousX = 0
+    previousY = 0
+    dragging = false
 
+    canvas.onmousedown = (event) ->
+        previousX = event.offsetX
+        previousY = event.offsetY
+        dragging = true
+
+    canvas.onmouseup = (event) ->
+        dragging = false
+
+    canvas.onmousemove = (event) ->
+        if dragging
+            transformState.xOffset += event.offsetX - previousX
+            transformState.yOffset += event.offsetY - previousY
+
+            previousX = event.offsetX
+            previousY = event.offsetY
+            renderLSystem()
 
 initialise()
 renderLSystem()
