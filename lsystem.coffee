@@ -134,18 +134,6 @@ renderLSystem = () ->
 
     ctx.restore()
 
-initialise = ->
-    selectBox = document.getElementById "systemselector"
-    selectBox.onchange = (event) ->
-        console.log "hi"
-        console.log currentSystem
-        console.log @value
-        currentSystem = @value
-        console.log currentSystem
-        renderLSystem()
-
-initialise()
-
 lsystems =
     'Sierpinski Triangle':
         axiom: 'A'
@@ -187,5 +175,19 @@ lsystems =
                 turtle.ctx.restore()
                 turtle.right 45
 
+initialise = ->
+    selectBox = document.getElementById "systemselector"
+    for key in Object.keys(lsystems)
+        selectBox.options[selectBox.options.length] = new Option(key)
 
+    selectBox.onchange = (event) ->
+        console.log "hi"
+        console.log currentSystem
+        console.log @value
+        currentSystem = @value
+        console.log currentSystem
+        renderLSystem()
+
+
+initialise()
 renderLSystem()
