@@ -118,7 +118,7 @@ renderLSystem = () ->
     ctx = canvas.getContext '2d'
     maxX = canvas.width
     maxY = canvas.height
-    ctx.save()
+
     ctx.fillStyle = 'white'
     ctx.fillRect 0, 0, maxX, maxY
     ctx.translate maxX / 2, maxY / 2
@@ -129,7 +129,7 @@ renderLSystem = () ->
     
     a.render()
 
-    ctx.restore()
+    ctx.setTransform(1,0,0,1,0,0);
 
 lsystems =
     'Sierpinski Triangle':
