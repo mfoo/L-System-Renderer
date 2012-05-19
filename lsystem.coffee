@@ -32,45 +32,51 @@ class LSystem
         @initialiseCanvas()
 
         @stack = new Stack()
-        @stack.push new Turtle(1)
-        @variables = ['0', '1']
-        @axiom = '0'
+        @stack.push new Turtle()
+        @stack.push new Turtle()
+        @variables = ['A', 'B']
+        @axiom = 'A'
         #        @rules =
         #            'A': () -> 'AB'
         #            'B': () -> '[A]'
         #            '[': () -> '['
         #            ']': () -> ']'
         @rules =
-            '0': () -> '1[0]0'
-            '1': () -> '11'
-            '[': () -> '['
-            ']': () -> ']'
+            'A': () -> 'B-A-B'
+            'B': () -> 'A+B+A'
+            '-': () -> '-'
+            '+': () -> '+'
         @renderFunctions =
-            '0': (stack) ->
+            'A': (stack) ->
                 turtle = stack.peek()
                 #                turtle.penDown()
                 turtle.forward 10
-            '1': (stack) ->
+            'B': (stack) ->
                 turtle = stack.peek()
                 #turtle.penUp()
                 turtle.forward 10
-            '[': (stack) ->
-                turtle = new Turtle(2)
-                stack.push turtle
-                turtle.ctx.save()
-                turtle.rotate 45
-            ']': (stack) ->
-                turtle = stack.pop()
-                turtle.ctx.restore()
-                turtle.rotate -45
+            '-': (stack) ->
+                #                turtle = new Turtle()
+                #stack.push turtle
+                turtle = stack.peek()
+                #turtle.ctx.save()
+                turtle.rotate -60
+            '+': (stack) ->
+                turtle = stack.peek()
 
+                #turtle.ctx.restore()
+                turtle.rotate 60
+
+                #0 A
+                #1 B-A-B
+                #2 A+B+A-B-A-B-A+B+A
 
     initialiseCanvas: () ->
         canvas = document.getElementById("canvas")
         ctx = canvas.getContext '2d'
         maxX = canvas.width
         maxY = canvas.height
-        ctx.translate maxX / 2, maxY
+        ctx.translate maxX / 2, maxY / 2
 
     step: () ->
         buffer = ''
@@ -88,11 +94,10 @@ class LSystem
             @renderFunctions[@axiom.charAt i](@stack)
 
 class Turtle
-    constructor: (num) ->
+    constructor: () ->
         canvas = document.getElementById("canvas")
         @ctx = canvas.getContext '2d'
         @drawing = true
-        @num = num
 
     penDown: ->
         @drawing = true
@@ -101,7 +106,6 @@ class Turtle
         @drawing = false
 
     forward: (length) ->
-        console.log "Turtle", @num, " moving forward."
         @ctx.beginPath()
         @ctx.moveTo 0, 0
 
@@ -116,12 +120,10 @@ class Turtle
         @ctx.moveTo 0, 0
         @ctx.rotate degrees * Math.PI / 180
 
-
 window.LSystem = LSystem
+window.Stack = Stack
 
 a = new LSystem()
-for num in [0..2]
+for num in [0..6]
     a.axiom = a.step()
-    console.log a.axiom
 a.render()
-
