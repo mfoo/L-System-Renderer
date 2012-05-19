@@ -171,6 +171,20 @@ lsystems =
                 turtle = stack.pop()
                 turtle.ctx.restore()
                 turtle.right 45
+    'Koch Snowflake':
+        axiom: 'S--S--S'
+        rules:
+            'S': () -> 'S+S--S+S'
+        renderFunctions:
+            'S': (stack) ->
+                turtle = stack.peek()
+                turtle.forward 10
+            '+': (stack) ->
+                turtle = stack.peek()
+                turtle.left 60
+            '-': (stack) ->
+                turtle = stack.peek()
+                turtle.right 60
 
 initialise = ->
     selectBox = document.getElementById 'systemselector'
