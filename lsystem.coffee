@@ -97,8 +97,7 @@ class Turtle
     left: (degrees) ->
         @right -degrees
 
-        #currentSystem = 'Sierpinski Triangle'
-currentSystem = 'Wikipedia Example 2'
+currentSystem = undefined
 
 renderLSystem = () ->
 
@@ -177,6 +176,8 @@ initialise = ->
     selectBox = document.getElementById 'systemselector'
     for key in Object.keys(lsystems)
         selectBox.options[selectBox.options.length] = new Option(key)
+
+    currentSystem = Object.keys(lsystems)[0]
 
     submitButton = document.getElementById 'submitButton'
     submitButton.onclick = (event) ->
