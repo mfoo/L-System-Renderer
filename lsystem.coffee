@@ -199,6 +199,27 @@ lsystems =
             '-': (stack) ->
                 turtle = stack.peek()
                 turtle.right 60
+    'Tree':
+        axiom: 'F'
+        rules:
+            'F': () -> 'F[+F]F[-F][F]'
+        renderFunctions:
+            'F': (stack) ->
+                turtle = stack.peek()
+                turtle.forward 10
+            '[': (stack) ->
+                turtle = new Turtle()
+                stack.push turtle
+                turtle.ctx.save()
+            ']': (stack) ->
+                turtle = stack.pop()
+                turtle.ctx.restore()
+            '+': (stack) ->
+                turtle = stack.peek()
+                turtle.left 20
+            '-': (stack) ->
+                turtle = stack.peek()
+                turtle.right 20
 
 initialise = ->
     selectBox = document.getElementById 'systemselector'
