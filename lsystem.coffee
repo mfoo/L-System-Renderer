@@ -48,7 +48,7 @@ class LSystem
             generationFunc = @rules[char]
 
             if generationFunc
-                buffer = buffer + @rules[char]()
+                buffer = buffer + generationFunc
             else
                 buffer = buffer + char
         
@@ -149,8 +149,8 @@ lsystems =
     'Sierpinski Triangle':
         axiom: 'A'
         rules:
-            'A': () -> 'B-A-B'
-            'B': () -> 'A+B+A'
+            'A': 'B-A-B'
+            'B': 'A+B+A'
         renderFunctions:
             'A': (stack) ->
                 turtle = stack.peek()
@@ -167,8 +167,8 @@ lsystems =
     'Wikipedia Example 2':
         axiom: '0'
         rules:
-            '1': () -> '11'
-            '0': () -> '1[0]0'
+            '1': '11'
+            '0': '1[0]0'
         renderFunctions:
             '0': (stack) ->
                 turtle = stack.peek()
@@ -188,7 +188,7 @@ lsystems =
     'Koch Snowflake':
         axiom: 'S--S--S'
         rules:
-            'S': () -> 'S+S--S+S'
+            'S': 'S+S--S+S'
         renderFunctions:
             'S': (stack) ->
                 turtle = stack.peek()
@@ -202,7 +202,7 @@ lsystems =
     'Tree':
         axiom: 'F'
         rules:
-            'F': () -> 'F[+F]F[-F][F]'
+            'F': 'F[+F]F[-F][F]'
         renderFunctions:
             'F': (stack) ->
                 turtle = stack.peek()

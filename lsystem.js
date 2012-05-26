@@ -53,7 +53,7 @@
         char = this.axiom.charAt(i);
         generationFunc = this.rules[char];
         if (generationFunc) {
-          buffer = buffer + this.rules[char]();
+          buffer = buffer + generationFunc;
         } else {
           buffer = buffer + char;
         }
@@ -165,12 +165,8 @@
     'Sierpinski Triangle': {
       axiom: 'A',
       rules: {
-        'A': function() {
-          return 'B-A-B';
-        },
-        'B': function() {
-          return 'A+B+A';
-        }
+        'A': 'B-A-B',
+        'B': 'A+B+A'
       },
       renderFunctions: {
         'A': function(stack) {
@@ -198,12 +194,8 @@
     'Wikipedia Example 2': {
       axiom: '0',
       rules: {
-        '1': function() {
-          return '11';
-        },
-        '0': function() {
-          return '1[0]0';
-        }
+        '1': '11',
+        '0': '1[0]0'
       },
       renderFunctions: {
         '0': function(stack) {
@@ -234,9 +226,7 @@
     'Koch Snowflake': {
       axiom: 'S--S--S',
       rules: {
-        'S': function() {
-          return 'S+S--S+S';
-        }
+        'S': 'S+S--S+S'
       },
       renderFunctions: {
         'S': function(stack) {
@@ -253,6 +243,40 @@
           var turtle;
           turtle = stack.peek();
           return turtle.right(60);
+        }
+      }
+    },
+    'Tree': {
+      axiom: 'F',
+      rules: {
+        'F': 'F[+F]F[-F][F]'
+      },
+      renderFunctions: {
+        'F': function(stack) {
+          var turtle;
+          turtle = stack.peek();
+          return turtle.forward(10);
+        },
+        '[': function(stack) {
+          var turtle;
+          turtle = new Turtle();
+          stack.push(turtle);
+          return turtle.ctx.save();
+        },
+        ']': function(stack) {
+          var turtle;
+          turtle = stack.pop();
+          return turtle.ctx.restore();
+        },
+        '+': function(stack) {
+          var turtle;
+          turtle = stack.peek();
+          return turtle.left(20);
+        },
+        '-': function(stack) {
+          var turtle;
+          turtle = stack.peek();
+          return turtle.right(20);
         }
       }
     }
